@@ -16,9 +16,12 @@ class ListenerCog(commands.Cog):
     async def watch_channel(self, ctx, channel_id: str):
         if channel_id.isnumeric():
             channel_id = int(channel_id)
-            self.settings["channels"].append(channel_id)
-            self.save_settings()
-            await ctx.send(f"Added channel {channel_id} to watch list.")
+            if channel_id not in self.settings["channels"]:
+                self.settings["channels"].append(channel_id)
+                self.save_settings()
+                await ctx.send(f"Now watching channel {channel_id}.")
+            else:
+                await ctx.send(f"Channel {channel_id} is already being watched.")
         else:
             await ctx.send("Channel ID is not valid")
 
@@ -26,9 +29,12 @@ class ListenerCog(commands.Cog):
     async def unwatch_channel(self, ctx, channel_id: str):
         if channel_id.isnumeric():
             channel_id = int(channel_id)
-            self.settings["channels"].pop(channel_id)
-            self.save_settings()
-            await ctx.send(f"Removed channel {channel_id} from watch list.")
+            if channel_id in self.settings["channels"]:
+                self.settings["channels"].remove(channel_id)
+                self.save_settings()
+                await ctx.send(f"Stopped watching channel {channel_id}.")
+            else:
+                await ctx.send(f"Channel {channel_id} is not being watched.")
         else:
             await ctx.send("Channel ID is not valid")
 
