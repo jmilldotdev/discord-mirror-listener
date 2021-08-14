@@ -220,7 +220,6 @@ dmypy.json
 # Icon must end with two \r
 Icon
 
-
 # Thumbnails
 ._*
 
@@ -245,3 +244,4 @@ secrets/
 dev/
 data/
 output/
+settings/
